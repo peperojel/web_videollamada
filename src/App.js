@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import Video from './components/video'
 import './App.css';
+import './styles/video.css'
+import { BrowserRouter, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from './containers/home/home';
+import SocketConnection from './lib/socket';
+
+// Se crea una instancia única de Ws que será alimentada a los componentes que la requieran
+const ws = new SocketConnection();
+
+class App extends Component {
+
+  render() {
+    return (
+      <BrowserRouter>
+       <React.Fragment>
+          <Route path="/home" exact render={props => <Home {...props} socket={ws} />} />
+          <Route path="/videollamada/:roomId" exact render={props => <Video {...props} socket={ws} />}/>
+        </React.Fragment>
+      </BrowserRouter>
+    )
+  }
 }
 
 export default App;
