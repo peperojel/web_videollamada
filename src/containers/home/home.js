@@ -90,7 +90,7 @@ class Home extends Component {
     */
     handleChange( e ) {
         const id_topic = 'someId';
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MjEyMTg4MH0.zNoVLpQcmGQDCjF6pt3RgTTxHh3D-4XxYGx0OohGDoM';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMyLCJpYXQiOjE1NzI4MzI4NzB9.-SQDvLhHF0z2OIn6SAUoMp5Aasp0SnX9vh7z7cChiRQ';
         this.setState ({ disponible : e.target.checked});
         if (e.target.checked) {
             this.props.socket.connect();

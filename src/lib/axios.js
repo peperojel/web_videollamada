@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: "http://10.112.19.91:3333",
+  baseURL: "https://meditel-testing.herokuapp.com",
   headers : {
     'Accept' : 'application/json',
     'Content-Type' : 'application/json'
