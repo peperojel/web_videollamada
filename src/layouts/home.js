@@ -73,7 +73,10 @@ function Home(props) {
         checkedA: true,
         checkedB: true,
     });
-    console.log(request)
+
+    /*
+    Si hay un request se muestra el "pop-up" de solicitud. Solo permite aceptar en esta implementación
+    */
     let requestComp;
     if(request) {
         requestComp = <ListItem>
@@ -126,7 +129,7 @@ function Home(props) {
                             />
                         </ListItem>
                         {requestComp}
-                        <ListItem>
+                        {/* <ListItem>
                             <Button 
                                 variant="contained"
                                 className={classes.button}
@@ -134,7 +137,7 @@ function Home(props) {
                                 Test
                             </Button>
                             <Fragment>Your text here</Fragment>;
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                     <Divider />
                 </Drawer>

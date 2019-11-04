@@ -11,7 +11,7 @@ class Video extends React.Component {
       localStream: {},
       remoteStreamUrl: '',
       streamUrl: '',
-      initiator: false,
+      initiator: true,
       full: false,
       connecting: false,
       waiting: true
@@ -51,13 +51,11 @@ class Video extends React.Component {
         case 'asesoria:signaling':
           this.state.peer.signal(data)
           break;
-        case 'asesoria:initiator':
-          this.setState({initiator: true})
         default:
           console.log("Default case")
         break;
       }
-}
+  }
 
   getUserMedia(cb) {
     return new Promise((resolve, reject) => {
@@ -105,7 +103,6 @@ class Video extends React.Component {
       this.state.initiator
     )
     this.setState({peer})
-    // TODO: Se debe adaptar a la nueva lógica del WebSocket
     peer.on('signal', data => {
       console.log("[Evento Signal] Enviando data...", data)
       this.room.emit('message', {

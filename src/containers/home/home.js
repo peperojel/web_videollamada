@@ -31,41 +31,38 @@ class Home extends Component {
         console.log("Se ejecutó setHandler!")
     }
 
-    handleClick () {
-        room.emit("message", {
-            type: 'asesoria:request',
-            data: ''
-        })
-        console.log("Bottom pressed")
-    }
+    /*
+    @ handler sel botón de testing
+    */
+    // handleClick () {
+    //     room.emit("message", {
+    //         type: 'asesoria:request',
+    //         data: ''
+    //     })
+    // }
 
     handleClickRequest () {
         room.emit("message", {
             type: 'asesoria:start',
             data: ''
         })
-        console.log("Bottom pressed")
     }
     /*
     @ messageHandler
     Maneja los mensajes que llegan desde el WebSocket
     @ Entradas:
         - message: Mensaje que arribó al socket.
-    @ Proceso: Si mensaje es solicitud de asesoría se migra a la vista de videollamada
+    @ Proceso: Manejo de eventos según type.
     */
     messageHandler ( message ) {
         const {type, data} = message
         switch (type) {
             case 'asesoria:request':
-              this.setState({request: true})
-              break;
+                this.setState({request: true})
+                break;
             case 'asesoria:start':
                 this.props.history.push("videollamada/someId");
-            
-              console.log("Go to videollamada!")
-            case 'asesoria:ready':
-            //   this.updateState(this.sc,this.socket.topic)
-            break;
+                break;
             default:
               console.log("Default case")
             break;
@@ -85,9 +82,11 @@ class Home extends Component {
         - Hace una conexión al socket
         - Se subscribe al canal id_topic
         - Envía un request al backend para cambiar su estado
-    #TODO: 
-        - Asegurar que quede en modo no disponible cuando cierre la página
-        - El id_topic debe ser adquirido desde el backend (método por definir)
+    # Consideraciones (TODO?): 
+        - La data debe ser fetcheada desde el back:
+            - id_topic
+            - token (al momento de login)
+        - Para asegurar una conexión única al topic usar this.props.socket.ws.getSubscription(id_topic) el cual retorna un objeto para hacer "emit"
     */
     handleChange( e ) {
         const id_topic = 'someId';
@@ -95,13 +94,13 @@ class Home extends Component {
         this.setState ({ disponible : e.target.checked});
         if (e.target.checked) {
             this.props.socket.connect();
-            //TODO: USAR Ws.getSubscription(id_topic) para asegurar que exista una única subscripción
+            //subscribe retorna una subscripción al topic que tiene el método "emit" que permite enviar datos
             room = this.props.socket.subscribe('asesoria:'+id_topic);
             this.props.socket.topic = 'asesoria:'+id_topic;
         } else {
             this.props.socket.close();
         }
-
+        
         axios.post(
             '/api/doctor/estado',
             {disponible : e.target.checked},
@@ -111,7 +110,6 @@ class Home extends Component {
             .then( response => {
                 console.log(response);
             }, (error) => console.log(error))
-
     }
 
     setComponent(componentName, navbarName){

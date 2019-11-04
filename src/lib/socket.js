@@ -11,10 +11,10 @@ export default class SocketConnection {
   setHandler (handler) {
     this.handler = handler
   }
-
+  //TODO: Darle el token como argumento
   connect () {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MjEyMTg4MH0.zNoVLpQcmGQDCjF6pt3RgTTxHh3D-4XxYGx0OohGDoM';
-    this.ws = Ws('ws://localhost:3333')
+    this.ws = Ws('ws://10.112.19.91:3333')
     .withApiToken(token)
       .connect();
 
